@@ -42,8 +42,8 @@
     // "jsx": "react-jsx",
 
     // transform import/export syntax to require/module.exports when false
-    
     "verbatimModuleSyntax": false,
+    
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
