@@ -152,3 +152,35 @@ npx prisma studio
 ```
 
 This will open a new tab in your browser where you can interact with your data.
+
+---
+
+## Appendix: Project Configuration Notes
+
+This section details the project's module system configuration, which is relevant for understanding how TypeScript code is compiled and executed in the Node.js environment.
+
+### Module System: CommonJS
+
+This project utilizes the **CommonJS (CJS)** module system. CJS is the traditional module system native to Node.js, using `require()` and `module.exports` for module handling.
+
+The alternative is **ES Modules (ESM)**, the official standard for JavaScript, which uses `import` and `export` statements. While ESM is the modern standard, this project is configured for CommonJS to allow for a more traditional Node.js workflow, notably the ability to import modules without file extensions.
+
+### Configuration Details
+
+The CommonJS setup is achieved through the following configuration:
+
+1.  **`package.json`**: The `"type": "module"` property is omitted. In its absence, Node.js defaults to interpreting `.js` files as CommonJS modules.
+
+2.  **`tsconfig.json`**: The TypeScript compiler is configured to emit CommonJS-compatible JavaScript. The key properties are:
+    - `"module": "commonjs"`: Instructs the TypeScript compiler to convert its `import`/`export` syntax into the `require()`/`module.exports` syntax of CommonJS.
+    - `"target": "esnext"`: Allows the use of modern JavaScript syntax and features within the TypeScript source code. The compiler assumes the target Node.js version supports these features.
+    - `"lib": ["esnext"]`: Provides the TypeScript compiler with the necessary type definitions for modern JavaScript features (e.g., `Promise.allSettled()`), preventing type-checking errors when using them.
+    - `"verbatimModuleSyntax": false`: This enables a more lenient mode where TypeScript is "smart" about imports. It allows using a standard `import` for both values and types, and the compiler correctly handles erasing type-only imports from the final JavaScript output.
+
+This configuration is a standard and robust method for developing Node.js applications with TypeScript, combining modern language features with the traditional Node.js module system.
+
+### Rationale for CommonJS
+
+The decision to use the CommonJS module system for this project is rooted in developer experience and alignment with established Node.js patterns. The primary motivation for this specific setup is to avoid the need to use `.js` extensions when importing one TypeScript file into another. While the modern ESM configuration requires this for runtime compatibility, the CommonJS approach allows for cleaner import paths that many developers find more intuitive.
+
+Many developers, particularly those with a background in Express.js or other long-standing Node.js frameworks, are accustomed to a workflow that does not require file extensions in import paths. By choosing CommonJS, this project provides a more familiar and arguably cleaner import syntax (e.g., `import ... from './file'`) versus the ESM requirement (`import ... from './file.js'`). This choice prioritizes developer convenience and consistency with a vast number of existing projects and tutorials in the Node.js ecosystem.
