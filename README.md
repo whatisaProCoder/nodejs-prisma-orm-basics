@@ -81,7 +81,7 @@ npx prisma
 Make sure your PostgreSQL server is running. Create a `.env` file in the root of the project and add your database connection string:
 
 ```
-DATABASE_URL="postgresql://user:password@localhost:5432/mydatabase"
+DATABASE_URL="postgresql://user:password@localhost:5432/mydatabase?schema=public"
 ```
 
 Replace `user`, `password`, and `mydatabase` with your PostgreSQL credentials and database name.
